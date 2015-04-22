@@ -1,0 +1,5 @@
+python-sii (0.0.1.0~2015042100) unstable; urgency=medium
+
+  * Initial Debian Packaging.
+
+ -- Leonhard Weber Kunstmann <leonhard.weber@voipir.cl>  Fri, 01 Aug 2014 18:09:01 -0400
