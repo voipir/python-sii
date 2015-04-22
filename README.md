@@ -34,9 +34,9 @@ To run the testsuite you first will need to install the package (you might want 
 python3 setup.py install
 python3 setup.py develop
 ```
-Then you run the testsuite by running:
+Then you run the testsuite by running (you will need `Make` installed):
 ```bash
-python3 tests/test.py --key-path /path/to/key/file.pem --cert-path /path/to/certificate/file.crt tests/*
+make test ARG_KEY="/path/to/key/file.pem" ARG_CERT="/path/to/cert/file.pem"
 ```
 
 ## Licence
