@@ -4,7 +4,8 @@ import os
 import tempfile
 from binascii import hexlify
 
-from cns.pylib.sii.syscallers import Ps2Eps
+from sii.system import Ps2Eps
+
 from .Barcode import Barcode
 
 

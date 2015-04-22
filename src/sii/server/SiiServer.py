@@ -11,13 +11,13 @@
 # SEND_ERR_UNKNOWN    = 99
 
 
-class SIIException(Exception):
+class SiiException(Exception):
     """ Thrown at submission and return XML interpretation """
     def __init__(self, errno):
         self.errno = errno
 
 
-class SiiInterface(object):
+class SiiServer(object):
 
     def __init__(self, cert_path, host_url, flush=False):
         """

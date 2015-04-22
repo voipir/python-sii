@@ -1,7 +1,7 @@
 """ Library for Document Creation, Schema Validation, Signature and Interaction (Upload and
 Queries) with the Chilean Tax Service (SII - Servicio Impuestos Internos).
 """
-from .sii      import SiiInterface
+from .server   import SiiServer
 from .schema   import NodeDocumento
 from .types    import CodigoAutorizacionFolios
 from .builders import (SiiFacturaVenta,
@@ -34,5 +34,5 @@ __all__ = ['NodeDocumento',
 
            'CodigoAutorizacionFolios',
 
-           'SiiInterface',
+           'SiiServer',
            'DocumentPrinter']

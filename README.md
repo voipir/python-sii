@@ -22,6 +22,10 @@ It is a Python library aimed at facilitating the interactions with Chile's SII (
   * jinja2 (for templating of TeX template which then is made a PDF by pdflatex)
   * pdflatex (PDF building, could be made optional to ease porting to a Microsoft OS)
 
+#### Testsuite Dependencies:
+  * pytest
+  * pytest-timeout (optional but recomended because of server auth flakyness)
+
 For support for a Microsoft OS, it should be possible, but will not be officially supported. We don't work with it, so if anybody wants to take up that task instead, be welcome to do so. We will acommodate your needs on porting as well as we can.
 
 ## How-To
@@ -38,6 +42,7 @@ Then you run the testsuite by running (you will need `Make` installed):
 ```bash
 make test ARG_KEY="/path/to/key/file.pem" ARG_CERT="/path/to/cert/file.pem"
 ```
+Since tests against the auth server are flaky at the moment, dropping every Nth connection and currently not correctly verifying certificate signatures, you might want to take a look at the py.test "timeout" plugin to put a hard limit and avoid getting stuck mid-test.
 
 ## Licence
 The library is licenced as LGPLv3 as you can make out in the LICENSE file. You can do what ever you want with this code, as long as you keep any changes or enhancements to this library (not your code that interacts with it!) public. Other than that we would also kindly ask you for fair play and collaboration. We all have the same itch to scratch here, and would greatly benefit from each other, even if by means of a bug report. Thank you!.

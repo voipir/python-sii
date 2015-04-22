@@ -5,7 +5,8 @@ This tests require the following arguments passed to the test executable ./test.
     --key-path  path/to/key/file.pem
     --cert-path path/to/certificate/file.crt
 """
-from sii.server.ptcl import Seed, Token  # , Authentication
+from sii.server.Seed  import Seed
+from sii.server.Token import Token
 
 
 def test_palena_auth_seed():
