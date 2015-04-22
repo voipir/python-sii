@@ -2,13 +2,13 @@
 ---
 ## What is it?
 It is a Python library aimed at facilitating the interactions with Chile's SII (Tax Revenue Office) requirements for information. This includes (by SII schema definition standards):
-  * [DONE] Creation of sales documents.
-  * [TODO] Creation of accounting documents.
-  * [DONE] Connecting and authentication with SII servers. (automatic session negociation)
-  * [ALMOST DONE] Signing of documents with x509 key/cert. (ask if you want to know how to get them from your .pfx)
-  * [TODO] Uploading of sales documents.
-  * [TODO] Uploading of accounting reports.
-  * [DONE] Printing of various documents including the mandatory PDF417 barcode.
+  - [x] Creation of sales documents.
+  - [ ] (TODO) Creation of accounting documents.
+  - [x] Connecting and authentication with SII servers. (automatic session negociation)
+  - [x] (DONE) Signing of documents with x509 key/cert. (ask if you want to know how to get them from your .pfx)
+  - [ ] (TODO) Uploading of sales documents.
+  - [ ] (TODO) Uploading of accounting reports.
+  - [x] Printing of various documents including the mandatory PDF417 barcode.
 
 ## Requirements
 #### Currently this library has been developed and tested on:
