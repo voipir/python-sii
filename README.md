@@ -19,6 +19,7 @@ It is a Python library aimed at facilitating the interactions with Chile's SII (
   * suds-jerko (currently first choice of SUDS fork that has support for Python3)
   * lxml (xml creation and handling)
   * xmlsec (signing and verifying of documents)
+  * jinja2 (for templating of TeX template which then is made a PDF by pdflatex)
   * pdflatex (PDF building, could be made optional to ease porting to a Microsoft OS)
 
 For support for a Microsoft OS, it should be possible, but will not be officially supported. We don't work with it, so if anybody wants to take up that task instead, be welcome to do so. We will acommodate your needs on porting as well as we can.
