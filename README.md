@@ -14,6 +14,8 @@ It is a Python library aimed at facilitating the interactions with Chile's SII (
 #### Currently this library has been developed and tested on:
   * GNU/Linux Debian 8.0 (Jessie, in the making as the time of writing)
 
+For support for a Microsoft OS, it should be possible, but will not be officially supported. We don't work with it, so if anybody wants to take up that task instead, be welcome to do so. We will acommodate your needs on porting as well as we can.
+
 #### Library Dependencies:
   * Python3 (though it should be quite trivial to backport to 2.7 via __future__ includes)
   * suds-jerko (currently first choice of SUDS fork that has support for Python3)
@@ -25,8 +27,6 @@ It is a Python library aimed at facilitating the interactions with Chile's SII (
 #### Testsuite Dependencies:
   * pytest
   * pytest-timeout (optional but recomended because of server auth flakyness)
-
-For support for a Microsoft OS, it should be possible, but will not be officially supported. We don't work with it, so if anybody wants to take up that task instead, be welcome to do so. We will acommodate your needs on porting as well as we can.
 
 ## How-To
 #### Use:
