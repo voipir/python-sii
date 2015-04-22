@@ -35,7 +35,7 @@ python3 setup.py install
 python3 setup.py develop
 ```
 Then you run the testsuite by running:
-```python
+```bash
 python3 tests/test.py --key-path /path/to/key/file.pem --cert-path /path/to/certificate/file.crt tests/*
 ```
 
