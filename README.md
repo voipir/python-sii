@@ -2,23 +2,23 @@
 ---
 ## What is it?
 It is a Python library aimed at facilitating the interactions with Chile's SII (Tax Revenue Office) requirements for information. This includes (by SII schema definition standards):
-
-    * Creation of sales documents .
-    * Creation of accounting documents. (TODO)
-    * Signing of documents with x509 key/cert. (ask if you want to know how to get them from your .pfx)
-    * Uploading of sales documents.
-    * Uploading of accounting reports.
-    * Printing of various documents including the mandatory PDF417 barcode.
+  * Creation of sales documents .
+  * Creation of accounting documents. (TODO)
+  * Signing of documents with x509 key/cert. (ask if you want to know how to get them from your .pfx)
+  * Uploading of sales documents.
+  * Uploading of accounting reports.
+  * Printing of various documents including the mandatory PDF417 barcode.
 
 ## Requirements
-Currently this library has been developed and tested on:
+#### Currently this library has been developed and tested on:
+  * GNU/Linux Debian 8.0 (Jessie, in the making as the time of writing)
 
-    * GNU/Linux Debian 8.0 (Jessie, in the making as the time of writing)
-    * Python3 (though it should be quite trivial to backport to 2.7 via __future__ includes)
-    * suds-jerko (currently first choice of SUDS fork that has support for Python3)
-    * lxml (xml creation and handling)
-    * xmlsec (signing and verifying of documents)
-    * pdflatex (PDF building, could be made optional to ease porting to a Microsoft OS)
+#### Library Dependencies
+  * Python3 (though it should be quite trivial to backport to 2.7 via __future__ includes)
+  * suds-jerko (currently first choice of SUDS fork that has support for Python3)
+  * lxml (xml creation and handling)
+  * xmlsec (signing and verifying of documents)
+  * pdflatex (PDF building, could be made optional to ease porting to a Microsoft OS)
 
 For support for a Microsoft OS, it should be possible, but will not be officially supported. We don't work with it, so if anybody wants to take up that task instead, be welcome to do so. We will acommodate your needs on porting as well as we can.
 
