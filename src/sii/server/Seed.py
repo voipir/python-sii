@@ -68,7 +68,7 @@ class Seed(object):
 
         self._status = int(status[0]) if status else None
         self._seed   = seed[0]        if seed   else None
-        self._msg    = msg[0]         if msg  else None
+        self._msg    = msg[0]         if msg    else None
 
     @property
     def status(self):

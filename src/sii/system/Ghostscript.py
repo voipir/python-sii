@@ -17,8 +17,8 @@ class Ghostscript(SystemCall):
     def executable(self):
         return which(self.name)
 
-    def check(self):
-        exe = which(self.name, fail=False)
+    def check(self, fail=True):
+        exe = which(self.name, fail=fail)
         return False if exe is False else True
 
     def call(self):

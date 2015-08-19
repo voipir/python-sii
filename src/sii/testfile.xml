@@ -1,0 +1,29 @@
+<DTE><Documento ID="F5548T61"><Detalle><NroLinDet>0</NroLinDet><UnmdRef>kg</UnmdRef><RecargoPct>0.0</RecargoPct><PrcItem>3087.5</PrcItem><UnmdItem>kg</UnmdItem><NmbItem>HARINA NIEVE 10 KILOS</NmbItem><RecargoMonto>0</RecargoMonto><MontoItem>18525</MontoItem><IndExe>0</IndExe><QtyItem>6.0</QtyItem><CodImpAdic>19</CodImpAdic><IndAgente>R</IndAgente><QtyRef>60.0</QtyRef><PrcRef>3087.5</PrcRef></Detalle><Detalle><NroLinDet>1</NroLinDet><UnmdRef>kg</UnmdRef><RecargoPct>0.0</RecargoPct><PrcItem>12215.0</PrcItem><UnmdItem>kg</UnmdItem><NmbItem>HARINA PERLA SURE&#209;A 50 KILOS</NmbItem><RecargoMonto>0</RecargoMonto><MontoItem>12215</MontoItem><IndExe>0</IndExe><QtyItem>1.0</QtyItem><CodImpAdic>19</CodImpAdic><IndAgente>R</IndAgente><QtyRef>50.0</QtyRef><PrcRef>12215.0</PrcRef></Detalle><Encabezado><Totales><IVA>5841</IVA><MntNeto>30740</MntNeto><MntTotal>40270</MntTotal><ImptoReten><TasaImp>12.0</TasaImp><TipoImp>19</TipoImp><MontoImp>1739</MontoImp></ImptoReten><TasaIVA>19.0</TasaIVA><MntExe>0</MntExe></Totales><Emisor><GiroEmis>HARINA Y OTROS DEL RAMO</GiroEmis><RznSoc>CIA. MOLINERA VILLARRICA LTDA.</RznSoc><DirOrigen>PRESIDENTE RIOS 1080</DirOrigen><ComunaOrigen>VILLARRICA</ComunaOrigen><RUTEmisor>80203400-8</RUTEmisor><Acteco>153110</Acteco><CdgSIISucur>4881531</CdgSIISucur></Emisor><Receptor><GiroRecep>0</GiroRecep><CmnaRecep>VILLARRICA</CmnaRecep><RznSocRecep>SUPERMERCADO STA. VICTORIA LTDA.</RznSocRecep><RUTRecep>76353910-5</RUTRecep><DirRecep>0</DirRecep></Receptor><IdDoc><IndServicio>2</IndServicio><FchEmis>2014-05-31</FchEmis><FchVenc>2014-06-30</FchVenc><TipoDespacho>1</TipoDespacho><Folio>5548</Folio><TipoDTE>61</TipoDTE></IdDoc></Encabezado><TmstFirma>2015-05-18T10-55-32</TmstFirma></Documento><Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+<SignedInfo>
+<CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+<SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+<Reference Id="F5548T61">
+<Transforms>
+<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+</Transforms>
+<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+<DigestValue>BJX8qEM0RKeqQCh3YyAbYPbKbJ8=</DigestValue>
+</Reference>
+</SignedInfo>
+<SignatureValue>JsN4pJ8Hovn8zv3lbAcLoXgbL4k/qLUYglekdXcPbQ7XWNYZzDpacwaFvE3OKjIM
+WGdoczPopVg5aiD0dOaxrQ==</SignatureValue>
+<KeyInfo>
+<KeyValue>
+<RSAKeyValue>
+<Modulus>
+nbhgVI+JQR0xBj+w+R0sgxsVBQl9zv5Yd2BpPLo+gL1I+kLvQ4YvHDMX243eYufd
+WgPvgaza3k4trNRLdpjWGw==
+</Modulus>
+<Exponent>
+Aw==
+</Exponent>
+</RSAKeyValue>
+</KeyValue>
+<X509Data/>
+</KeyInfo>
+</Signature></DTE>

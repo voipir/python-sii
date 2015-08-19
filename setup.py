@@ -11,7 +11,7 @@ from setuptools import setup, find_packages
 
 cfg = {'name'               : 'python-sii',
        'long_description'   : __doc__,
-       'version'            : '0.0.1.0.dev2015042100',
+       'version'            : '0.1.0.dev2015051500',
        'packages'           : find_packages('src'),
        'package_dir'        : {'': 'src'},
        'namespace_packages' : [],

@@ -1,7 +1,7 @@
 Files: *
 Copyright: Copyright 2015 Empresas Voipir <develop@voipir.cl>
-License: BSD
+License: LGPLv3
 
 Files: debian/*
 Copyright: Copyright 2015 Empresas Voipir <develop@voipir.cl>
-License: BSD
+License: LGPLv3

@@ -1,0 +1,69 @@
+# Template for a Factura de Venta Document Type
+
+
+Encabezado:
+    IdDoc:
+        TipoDTE:
+        Folio:
+        FchEmis:
+        FchVenc:
+        TipoDespacho:
+        IndServicio:
+        # MntBruto:
+        # FmaPago:
+        # FchPago:
+        # MntPago:
+        # Pago:
+    Emisor:
+        RUTEmisor:
+        RznSoc:
+        GiroEmis:
+        Acteco:       []
+        CdgSIISucur:
+        DirOrigen:
+        ComunaOrigen:
+    Receptor:
+        RUTRecep:
+        RznSocRecep:
+        GiroRecep:
+        DirRecep:
+        CmnaRecep:
+    Totales:
+        MntNeto:
+        MntExe:
+        TasaIVA:    19.0
+        IVA:
+        MntTotal:
+        ImptoReten:
+            -   TipoImp:  19
+                TasaImp:
+                MontoImp:
+Detalle:
+    -   CodImpAdic:   [19]
+        UnmdItem:     kg
+        QtyItem:
+        RecargoMonto:
+        PrcRef:
+        RecargoPct:
+        NmbItem:
+        UnmdRef:
+        NroLinDet:
+        PrcItem:
+        QtyRef:
+        IndAgente:
+        IndExe:
+        MontoItem:
+    -   CodImpAdic:   [19]
+        UnmdItem:     kg
+        QtyItem:
+        RecargoMonto:
+        PrcRef:
+        RecargoPct:
+        NmbItem:
+        UnmdRef:      kg
+        NroLinDet:
+        PrcItem:
+        QtyRef:
+        IndAgente:
+        IndExe:
+        MontoItem:

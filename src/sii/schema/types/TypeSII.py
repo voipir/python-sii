@@ -272,7 +272,7 @@ class SiiMail(String):
     def __init__(self, optional=False):
         super().__init__(max_length=80,
                          optional=optional)
-                         # regex=r'\w'  # TODO
+        # regex=r'\w'  # TODO
 
 
 class SiiMontoImpuestoAdicionalDTE(Enumeration):
@@ -491,7 +491,7 @@ class SiiFecha(Date):
         super().__init__(
             min_date=datetime.date(year=2000, month=1,  day=1),
             max_date=datetime.date(year=2050, month=12, day=31),
-            formatting='%Y-%d-%m',
+            formatting='%Y-%m-%d',
             optional=optional)
 
 
@@ -504,7 +504,7 @@ class SiiFechaHora(DateTime):
                                            hour=0,    minute=0, second=0),
             max_datetime=datetime.datetime(year=2050, month=12,  day=31,
                                            hour=23,   minute=59, second=59),
-            formatting='%Y-%d-%mT%H-%M-%S',
+            formatting='%Y-%m-%dT%H-%M-%S',
             default=default,
             optional=optional)
 
@@ -520,4 +520,119 @@ class SiiIndicadorExtencion(Enumeration):
             4,  # El producto No Constituye Venta.
             5,  # Item a Rebajar.
             6,  # No facturables negativos.
-            optional=optional)
+            optional=optional
+        )
+
+
+# Added for Libros de Venta/Compra
+class SiiImpuesto(Enumeration):
+    """ Tipo de Impuestos Adicionales (ImptoType) """
+
+    def __init__(self, optional=False):
+        super().__init__(
+            14,  # IVA Margen de Comercializacion
+            15,  # IVA Retenido Total
+            16,  # IVA Retenido Parcial
+            17,  # IVA Anticipado Faenamiento Carne
+            18,  # IVA Anticipado Carne
+            19,  # IVA Anticipado Harina
+            23,  # Impuesto Art. 37 Letras a, b, c
+            24,  # Impuesto Art. 42 Ley 825/74 Letra a
+            25,  # Impuesto Art. 42 Letra c
+            26,  # Impuesto Art. 42 Letra c
+            27,  # Impuesto Art. 42 Letra d y e
+            28,  # Impuesto Especifico Diesel
+            29,  # Recuperacion Impuesto Especifico Diesel Transportistas
+            30,  # IVA Retenido Legumbres
+            31,  # IVA Retenido Silvestres
+            32,  # IVA Retenido Ganado
+            33,  # IVA Retenido Madera
+            34,  # IVA Retenido Trigo
+            35,  # Impuesto Especifico Gasolina
+            36,  # IVA Retenido Arroz
+            37,  # IVA Retenido Hidrobiologicas
+            38,  # IVA Retenido Chatarra
+            39,  # IVA Retenido PPA
+            40,  # IVA Retenido Opcional
+            # 41,
+            44,  # Impuesto Art. 37 Letras e, f, g y h
+            45,  # Impuesto Art. 37 Letra j
+            # 46,
+            # 47,
+            # 48,
+            # 49,
+            # 50,
+            # 51,
+            # 52,
+            53,  # Impuesto retenido a los suplementeros Art. 74 N°5
+            # 60,
+            # 301,
+            # 321,
+            # 331,
+            # 341,
+            # 361,
+            # 371,
+            # 481,
+            optional=optional
+        )
+
+
+class SiiDoctoType(Enumeration):
+    """ Tipos de Documentos """
+
+    def __init__(self, optional=False):
+        super().__init__(
+            29,
+            30,
+            32,
+            33,
+            34,
+            35,
+            38,
+            39,
+            40,
+            41,
+            43,
+            45,
+            46,
+            53,
+            55,
+            56,
+            60,
+            61,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            108,
+            109,
+            110,
+            111,
+            112,
+            175,
+            180,
+            185,
+            900,
+            901,
+            902,
+            903,
+            904,
+            905,
+            906,
+            907,
+            909,
+            910,
+            911,
+            914,
+            918,
+            919,
+            920,
+            921,
+            922,
+            924,
+            500,
+            501,
+            optional=optional
+        )

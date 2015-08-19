@@ -2,21 +2,24 @@
 """
 import re
 import datetime
-# import base64
 
+from lxml import etree
 
 # What you will find here...
-__all__ = ['MissingValueException',
-           'TypeProperty',
-           'String',
-           'Integer',
-           'UnsignedInteger',
-           'Decimal',
-           'UnsignedDecimal',
-           'Enumeration',
-           'Date',
-           'DateTime']
-           # 'Base64Binary']
+__all__ = [
+    'MissingValueException',
+    'TypeProperty',
+    'String',
+    'Integer',
+    'UnsignedInteger',
+    'Decimal',
+    'UnsignedDecimal',
+    'Enumeration',
+    'Date',
+    'DateTime',
+    'XMLType'
+]
+# 'Base64Binary']
 
 
 class MissingValueException(Exception):
@@ -32,7 +35,7 @@ class TypeProperty(object):
         self.__default  = default
         self.__optional = optional
 
-    def __get__(self, inst, owner):
+    def __get__(self, inst, _):
         value = self.__values.get(inst, None)
 
         if value is None and self.__default is not None:
@@ -50,18 +53,19 @@ class TypeProperty(object):
     def __delete__(self, inst):
         raise RuntimeError("No deletion of this property is allowed")
 
+    def __check__(self):
+        pass  # Dummy for now (__get__ is currently the one that raises on access)
+
     def validate(self, value):
         """ (REQUIRED) Validate the value before storing it.
         """
-        raise NotImplementedError("Missing concrete Implemtentation")
+        raise NotImplementedError("Missing concrete Implementation")
 
     def format(self, value):
         """ (OPTIONAL) Takes the stored value and formats it before returning it. Remember that
         it has to be able to deal with 'None' in case so far no value has been yet stored.
 
         Defaults to pass-through.
-
-        TODO (implement on types)
         """
         return value
 
@@ -279,45 +283,41 @@ class DateTime(TypeProperty):
         self.max_datetime = max_datetime
         self.formatting   = formatting
 
-    def validate(self, datetime):
-        if not isinstance(datetime, datetime.datetime):
+    def validate(self, timestamp):
+        if not isinstance(timestamp, datetime.datetime):
             raise TypeError("Value must be of type datetime.date (stdlib)!")
 
         if self.min_datetime is not None:
-            if not datetime >= self.min_datetime:
+            if not timestamp >= self.min_datetime:
                 raise ValueError("DateTime out of bounds: {0} below oldest "
-                                 "permissible {1}".format(datetime, self.min_datetime))
+                                 "permissible {1}".format(timestamp, self.min_datetime))
 
         if self.max_datetime is not None:
-            if not datetime <= self.max_datetime:
+            if not timestamp <= self.max_datetime:
                 raise ValueError("DateTime out of bounds: {0} above latest "
-                                 "permissible {1}".format(datetime, self.max_datetime))
+                                 "permissible {1}".format(timestamp, self.max_datetime))
 
-    def format(self, datetime):
-        if datetime is not None:
+    def format(self, timestamp):
+        if timestamp is not None:
             if self.format is not None:
-                return datetime.strftime(self.formatting)
+                return timestamp.strftime(self.formatting)
             else:
-                return str(datetime)
+                return str(timestamp)
 
 
-# class RawXML(TypeProperty):
+class XMLType(TypeProperty):
 
-#     def __init__(self, xml=None, optional=False):
-#         super().__init__(default=xml,
-#                          optional=optional)
+    def __init__(self, default=None, optional=False, attributes=None):
+        super().__init__(default=default, optional=optional)
 
+        self._attribs = attributes
 
-# class Base64Binary(TypeProperty):
+    def __attributes__(self):
+        return self._attribs
 
-#     def validate(self, bytestr):
-#         if not isinstance(bytestr, bytes):
-#             raise TypeError("Argument must be of type 'bytes'")
+    def validate(self, value):
+        if not etree.iselement(value):
+            raise TypeError("Value must be of type lxml.etree (xml)!")
 
-#     def format(self, bytestr):
-#         return base64.encode(bytestr)
-
-
-# class XMLSignatureSHA1withRSA(Base64Binary):
-
-#     __attributes__ = {'algoritmo': 'SHA1withRSA'}
+    def format(self, value):
+        return value

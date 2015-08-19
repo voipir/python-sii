@@ -17,9 +17,12 @@ class SystemCall(object):
         """ Path to the Executable. """
         raise NotImplementedError
 
-    def check(self):
+    def check(self, fail=True):
         """ Check if the Executable can be found and run. This is the point we have to
         fail if the program can not be found and/or is presumably not installed on the system.
+
+        If fail is set to True, it will raise an exception if not available, else just return
+        False.
         """
         raise NotImplementedError
 

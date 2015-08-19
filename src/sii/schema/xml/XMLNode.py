@@ -9,17 +9,39 @@ __all__ = ['XMLNode']
 class XMLNode(object):
 
     def __init__(self, optional=False, attributes=None):
+        self._values   = {}
         self._optional = optional
 
         if attributes is not None:
-            if hasattr(self, '__attributes__'):
-                raise AssertionError("Defining '__attributes__' twice!")
-            else:
+            if not hasattr(self, '__attributes__'):
                 self.__attributes__ = attributes
         elif hasattr(self, '__attributes__') and self.__attributes__ is not None:
             pass
         else:
             self.__attributes__ = {}
+
+    def __get__(self, inst, _):
+        obj = self._values.get(inst, None)
+        if obj is None:
+            obj = type(self)(self._optional, self.__attributes__)
+            self._values[inst] = obj
+
+        return obj
+
+    def __set__(self, inst, value):
+        self._values[inst] = value
+
+    def __delete__(self, inst):
+        raise RuntimeError("No deletion of this property is allowed")
+
+    def __check__(self):
+        from .XMLNodeContainers import XMLContainerBase
+
+        for attr in self.__attrs():
+            member = getattr(self, attr)
+
+            if isinstance(member, XMLContainerBase):
+                member.__check__()
 
     def __optional__(self):
         return self._optional
@@ -36,7 +58,7 @@ class XMLNode(object):
     def __xml__(self, content_only=False) -> etree.Element:
         """ Generate a etree.Element node containing/wrapping all XML generating subinstances
         """
-        # used in type conditional branching
+        # conditional type branching
         from .XMLNodeContainers import XMLTypeContainer, XMLNodeContainer
 
         dirattrs = self.__attrs()
@@ -67,9 +89,12 @@ class XMLNode(object):
             elif isinstance(value, XMLNode):
                 elements.extend(self.__xml_node(name=attr, node=value))
             else:
-                e      = etree.Element(attr)
-                e.text = str(value)
-                elements.append(e)
+                if not etree.iselement(value):
+                    e      = etree.Element(attr)
+                    e.text = str(value)
+                    elements.append(e)
+                else:
+                    elements.append(value)
 
         if content_only:
             return elements

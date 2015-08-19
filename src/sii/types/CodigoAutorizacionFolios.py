@@ -1,5 +1,8 @@
 """ Wrapper for CAF XML's as provided by the SII at Document ID Signature Keypair Request
 """
+from copy             import deepcopy
+from xml.sax.saxutils import unescape as xml_unescape
+
 from lxml import etree
 
 
@@ -10,11 +13,14 @@ class CodigoAutorizacionFolios(object):
 
     @property
     def xml(self):
-        return etree.tostring(self._root, encoding='unicode')
+        return xml_unescape(etree.tostring(self._root, encoding='unicode'))
+
+    def __xml__(self):
+        return deepcopy(self._root.find('CAF'))
 
     @property
-    def company_rut(self):
-        rut = self._ctrld_xpath('//RE/text()',
+    def company(self):
+        rut = self._ctrld_xpath('//DA/RE/text()',
                                 "Could not parse company RUT in CAF:\n{0}".format(self.xml))
         return rut
 
@@ -25,16 +31,16 @@ class CodigoAutorizacionFolios(object):
         return int(typ)
 
     @property
-    def doc_id_from(self):
-        id_from = self._ctrld_xpath('//RNG/D/text()',
-                                    "Could not parse range <from> in CAF:\n{0}".format(self.xml))
-        return int(id_from)
+    def doc_id_first(self):
+        id_first = self._ctrld_xpath('//RNG/D/text()',
+                                     "Could not parse range <first> in CAF:\n{0}".format(self.xml))
+        return int(id_first)
 
     @property
-    def doc_id_until(self):
-        id_until = self._ctrld_xpath('//RNG/H/text()',
-                                     "Could not parse range <until> in CAF:\n{0}".format(self.xml))
-        return int(id_until)
+    def doc_id_last(self):
+        id_last = self._ctrld_xpath('//RNG/H/text()',
+                                     "Could not parse range <last> in CAF:\n{0}".format(self.xml))
+        return int(id_last)
 
     @property
     def private_key(self):
@@ -56,3 +62,9 @@ class CodigoAutorizacionFolios(object):
                                "\"{0}\" in:\n{1}".format(xpath, self.xml))
         else:
             return values[0]
+
+    @classmethod
+    def from_file(cls, path):
+        with open(path, 'r') as fh:
+            xml_string = fh.read()
+            return cls(xml_string)

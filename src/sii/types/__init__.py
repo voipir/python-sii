@@ -4,4 +4,6 @@ Communication Protocols.
 from .CodigoAutorizacionFolios import CodigoAutorizacionFolios
 
 
-__all__ = ['CodigoAutorizacionFolios']
+__all__ = [
+    'CodigoAutorizacionFolios'
+]
