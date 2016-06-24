@@ -1,4 +1,12 @@
 # build artifacts
+build/
+dist/
 *.pyc
 *.egg*
-**/__pycache__
+*.swp
+*.log
+*.aux
+*.eps
+
+src/cns/pylib/sii/printing/templates/*.pdf
+src/cns/pylib/sii/printing/templates/sandbox/
