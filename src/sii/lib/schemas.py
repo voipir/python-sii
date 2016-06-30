@@ -81,7 +81,7 @@ def bundle_dte(doc_xml, caf):
     if isinstance(caf, types.CAFPool):
         caf = caf.resolve(doc_rut, doc_type, doc_serial)
 
-    assert isinstance(caf, types.CAF), "Expected `CAF` as company argument!"
+    assert isinstance(caf, types.CAF), "Expected `CAF` or `CAFPool` as company argument!"
 
     # Create TED
     doc.TED       = xml.wrap_xml(build_digital_stamp(doc_xml, caf.xml))  # Add SII digital stamp

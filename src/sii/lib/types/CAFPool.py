@@ -55,7 +55,7 @@ class CAFPool(object):
 
         rut = read_rut(rut_full)
 
-        return self.resolve_company(rut, dte_type, dte_id)
+        return self.resolve(rut, dte_type, dte_id)
 
 
 def _read_caf(path):
