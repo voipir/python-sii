@@ -375,7 +375,7 @@ def _assemble_totals(dte, company):
 
     # Global Discount or added Charges
     global_discount = 0
-    if hasattr(dte, 'DscRcgGlobal'):
+    if hasattr(dte.Documento, 'DscRcgGlobal'):
         unit   = str(dte.DscRcgGlobal.TpoValor)
         amount = int(dte.DscRcgGlobal.ValorDR)
 
@@ -404,7 +404,7 @@ def _assemble_totals(dte, company):
 def _assemble_refs(dte, company):
     references = SectionReferences()
 
-    if hasattr(dte, 'Referencia'):
+    if hasattr(dte.Documento, 'Referencia'):
         for ref in dte.Documento.Referencia:
             references.append_reference(
                 index      = int(ref.NroLinRef),

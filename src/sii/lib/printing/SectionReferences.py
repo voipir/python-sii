@@ -54,13 +54,13 @@ class SectionReferences(TemplateElement):
     def __init__(self):
         self._refs = []
 
-    def append_reference(self, reason, index, doc_type, doc_serial, doc_date):
+    def append_reference(self, reason, index, dte_type, dte_serial, dte_date):
         self._refs.append((
             index,
             reason,
-            DOC_TYPE_STRINGS[doc_type],
-            doc_serial,
-            doc_date
+            DOC_TYPE_STRINGS[dte_type],
+            dte_serial,
+            dte_date
         ))
 
     @property
