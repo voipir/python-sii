@@ -376,8 +376,8 @@ def _assemble_totals(dte, company):
     # Global Discount or added Charges
     global_discount = 0
     if hasattr(dte.Documento, 'DscRcgGlobal'):
-        unit   = str(dte.DscRcgGlobal.TpoValor)
-        amount = int(dte.DscRcgGlobal.ValorDR)
+        unit   = str(dte.Documento.DscRcgGlobal.TpoValor)
+        amount = int(dte.Documento.DscRcgGlobal.ValorDR)
 
         if unit == "%":
             neto = int(totals.MntNeto) if hasattr(totals, 'MntNeto') else 0
