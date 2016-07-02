@@ -52,14 +52,14 @@ def upload_document(document, key_pth, cert_pth, server=HOST_PRODUCTION, dryrun=
     validate_schema(document)
 
     # Prepare payload
-    xml = etree.tostring(
+    xmlbuff = etree.tostring(
         document,
         pretty_print    = True,
         method          = 'xml',
         encoding        = 'ISO-8859-1',
         xml_declaration = False
     )
-    xml = b'<?xml version="1.0" encoding="ISO-8859-1"?>\n' + xml
+    xmlbuff = b'<?xml version="1.0" encoding="ISO-8859-1"?>\n' + xmlbuff
 
     envio = xml.wrap_xml(document)
     if envio.__name__ == '{http://www.sii.cl/SiiDte}EnvioDTE':
@@ -92,7 +92,7 @@ def upload_document(document, key_pth, cert_pth, server=HOST_PRODUCTION, dryrun=
         ('dvSender',   ('', dv_sender)),
         ('rutCompany', ('', rut_company)),
         ('dvCompany',  ('', dv_company)),
-        ('file',       ('upload.xml', xml, 'text/xml; charset=ISO-8859-1'))
+        ('file',       ('upload.xml', xmlbuff, 'text/xml; charset=ISO-8859-1'))
     ])
 
     # Get Session ptcl.Token
@@ -136,8 +136,8 @@ def connect_webservice(key_pth, cert_pth, server):
     return auth_token
 
 
-def _parse_upload_return(xml):
-    ret = xml.wrap_xml(xml)
+def _parse_upload_return(tree):
+    ret = xml.wrap_xml(tree)
 
     status = ret.STATUS._str
     if status == "0":
