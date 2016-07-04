@@ -179,8 +179,26 @@ def dump_etree(xml_node):
     return xml_node._node
 
 
-def dump_xml(xml_node, *args, **kwargs):
-    return etree.tostring(xml_node._node, *args, **kwargs)
+def dump_xml(xml_node, **kwargs):
+    # Default encoding to UTF-8
+    if not 'encoding' in kwargs:
+        kwargs['encoding'] = 'UTF-8'
+
+    # Replace/Fix XML declaration/preamble
+    preamble = b""
+    xml_decl = kwargs.get('xml_declaration', False)
+    if xml_decl:
+        kwargs['xml_declaration'] = False
+
+        preamble = XML_DECL(kwargs['encoding'])
+        pretty   = kwargs.get('pretty_print', False)
+        if pretty:
+            preamble += b"\n"
+
+    buff = etree.tostring(xml_node._node, **kwargs)
+    buff = preamble + buff
+
+    return buff
 
 
 def print_xml(xml, file=sys.stdout, end='\n', encoding='UTF-8'):
