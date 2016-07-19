@@ -44,7 +44,7 @@ class SectionItems(TemplateElement):
         %s
     }
     """
-    def __init__(self, column_layout, table_margins=False):
+    def __init__(self, column_layout, table_margins=False, draft=False):
         """ Before using this Object you need to determine how the Columns are named, aligned and
         if they are expanding or not.
         You do that by providing the `column_layout` argument in the following Format:
@@ -64,6 +64,7 @@ class SectionItems(TemplateElement):
         self._colsettings   = column_layout
         self._items         = []
         self._table_margins = table_margins
+        self._draft         = draft
 
         self.__doc__ = self.__doc__ % (
             self._build_tablecols(),
@@ -155,5 +156,8 @@ class SectionItems(TemplateElement):
 
         if doc_gd_type:
             disclaimer += '\\centerline{\\textbf{\\large --- %s ---}}' % GUIA_DESPACHO_TYPES[doc_gd_type]
+
+        if self._draft:
+            disclaimer += '\\centerline{\\textbf{\\large --- %s ---}}' % "BORRADOR"
 
         return disclaimer

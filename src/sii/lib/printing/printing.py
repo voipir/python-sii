@@ -52,7 +52,7 @@ def list_printers():
     return lp.query_printers()
 
 
-def create_template(dte_xml, company, medium, cedible=False):
+def create_template(dte_xml, company, medium, cedible=False, draft=False):
     """ Generate TeX Template from a fully completed and stamped Document.
 
     :param dte_xml: Document XML to create the TeX Template from.
@@ -61,6 +61,7 @@ def create_template(dte_xml, company, medium, cedible=False):
     :param medium:  Medium to generate TeX for; 'carta', 'oficio' or 'thermal80mm' or None in which
                     case it defaults to 'carta' on anything DTE and 'thermal80mm' on anything Boleta.
     :param cedible: Wether to include the "cedible" declaration formular or not.
+    :param draft:   Wether to include a draft disclaimer or not.
 
     :type dte_xml: :class:lxml.etree.Element (<DTE/>)
     :type company: :class:sii.types.Company or :class:sii.types.CompanyPool
@@ -81,7 +82,7 @@ def create_template(dte_xml, company, medium, cedible=False):
     emitter    = _assemble_emitter(dte, company)
     siipatch   = _assemble_siipatch(dte, company)
     receiver   = _assemble_receiver(dte, company)
-    items      = _assemble_items(dte, company)
+    items      = _assemble_items(dte, company, draft=draft)
     payments   = _assemble_payments(dte, company)
     totals     = _assemble_totals(dte, company)
     references = _assemble_refs(dte, company)
@@ -272,7 +273,7 @@ def _assemble_receiver(dte, company):
     return receiver
 
 
-def _assemble_items(dte, company):
+def _assemble_items(dte, company, draft):
     items = SectionItems(
         column_layout = (
             {  # NroLinDet
@@ -311,7 +312,8 @@ def _assemble_items(dte, company):
                 'expand': False
             }
         ),
-        table_margins = False
+        table_margins = False,
+        draft         = draft
     )
 
     def extract_price(detail):
