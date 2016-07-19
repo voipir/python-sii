@@ -202,6 +202,9 @@ def dump_xml(xml_node, **kwargs):
 
 
 def print_xml(xml, file=sys.stdout, end='\n', encoding='UTF-8'):
+    if isinstance(xml, XML):
+        xml = dump_etree(xml)
+
     bytebuff = etree.tostring(
         xml,
         pretty_print    = True,
