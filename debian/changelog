@@ -1,5 +1,5 @@
-python-sii (1.0.0~2016062400) unstable; urgency=medium
+python-sii (1.0.0) stable; urgency=medium
 
-  * Initial Packaging.
+  * Initial Release.
 
  -- Leonhard Weber <leonhard.weber@voipir.cl>  Fri, 24 Jun 2016 19:01:32 -0400
