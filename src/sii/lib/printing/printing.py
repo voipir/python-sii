@@ -14,7 +14,7 @@ from sii.lib.lib import syscall as sys
 from . import Document
 from . import SectionSignature
 from . import SectionPreamble
-from . import SectionEmitter
+from . import SectionEmitter, SectionEmitterProvider
 from . import SectionSiiPatch
 from . import SectionReceiver
 from . import SectionItems
@@ -22,7 +22,7 @@ from . import SectionPayments
 from . import SectionTotals
 from . import SectionReferences
 from . import SectionBarcode
-from . import SectionDisclaimer
+from . import SectionDisclaimer, SectionDisclaimerDummy
 
 
 __all__ = [
@@ -52,37 +52,38 @@ def list_printers():
     return lp.query_printers()
 
 
-def create_template(dte_xml, company, medium, cedible=False, draft=False):
+def create_template(dte_xml, medium, company=None, cedible=False, draft=False):
     """ Generate TeX Template from a fully completed and stamped Document.
 
     :param dte_xml: Document XML to create the TeX Template from.
-    :param company: Company or a CompanyPool with the metadata for company(ies). In the latter case
-                    it resolves from the Emisor RUT in the document provided.
     :param medium:  Medium to generate TeX for; 'carta', 'oficio' or 'thermal80mm' or None in which
                     case it defaults to 'carta' on anything DTE and 'thermal80mm' on anything Boleta.
+    :param company: Company, CompanyPool or None. In the first case it expects company metadata, in
+                    the second a pool containing metadata for the RUTEmisor specified by the DTE. In
+                    the third case the document is handled as a third party / provider document.
     :param cedible: Wether to include the "cedible" declaration formular or not.
     :param draft:   Wether to include a draft disclaimer or not.
 
     :type dte_xml: :class:lxml.etree.Element (<DTE/>)
-    :type company: :class:sii.types.Company or :class:sii.types.CompanyPool
     :type medium:  str
+    :type company: :class:sii.types.Company or :class:sii.types.CompanyPool or None
     :type cedible: bool
     """
     dte = xml.wrap_xml(dte_xml)
 
-    assert dte.__name__ == 'DTE',                        "Provided XML must root with an <DTE> tag. Expected DTE"
+    assert dte.__name__.endswith('DTE'),                 "Provided XML must root with an <DTE> tag. Expected DTE"
     assert hasattr(dte, 'Documento'),                    "Provided XML must contain <Documento>"
     assert medium in ('carta', 'oficio', 'thermal80mm'), "Unsupported medium for printing: {0}".format(medium)
 
-    if isinstance(company, types.CompanyPool):
-        company = company[int(str(dte.Documento.Encabezado.Emisor.RUTEmisor)[:-2])]
+    assert isinstance(company, (types.Company, types.CompanyPool, type(None))), "Invalid argument provided as 'company'"
 
-    assert isinstance(company, types.Company), "Expected `Company` as company argument!"
+    if isinstance(company, types.CompanyPool):  # resolve company from pool
+        company = company[int(str(dte.Documento.Encabezado.Emisor.RUTEmisor)[:-2])]
 
     emitter    = _assemble_emitter(dte, company)
     siipatch   = _assemble_siipatch(dte, company)
     receiver   = _assemble_receiver(dte, company)
-    items      = _assemble_items(dte, company, draft=draft)
+    items      = _assemble_items(dte, company, draft=draft, provider=True if company is None else False)
     payments   = _assemble_payments(dte, company)
     totals     = _assemble_totals(dte, company)
     references = _assemble_refs(dte, company)
@@ -214,42 +215,70 @@ def _str_or_none(obj, name, default=None):
 
 
 def _assemble_emitter(dte, company):
-    if hasattr(dte.Documento.Encabezado.Emisor, 'Telefono'):
-        emitter_phone = str(dte.Documento.Encabezado.Emisor.Telefono)
+    if not company:
+        if hasattr(dte.Documento.Encabezado.Emisor, 'Telefono'):
+            phone = str(dte.Documento.Encabezado.Emisor.Telefono)
+        else:
+            phone = ""
+
+        emitter = SectionEmitterProvider(
+            emitter_name     = str(dte.Documento.Encabezado.Emisor.RznSoc),
+            emitter_activity = str(dte.Documento.Encabezado.Emisor.GiroEmis),
+            emitter_address  = "{0}, {1}".format(
+                str(dte.Documento.Encabezado.Emisor.DirOrigen),
+                str(dte.Documento.Encabezado.Emisor.CmnaOrigen)
+            ),
+            emitter_phone    = phone
+        )
+
+        return emitter
     else:
-        emitter_phone = company.addr_phone
+        if hasattr(dte.Documento.Encabezado.Emisor, 'Telefono'):
+            emitter_phone = str(dte.Documento.Encabezado.Emisor.Telefono)
+        else:
+            emitter_phone = company.addr_phone
 
-    emitter = SectionEmitter(
-        emitter_name_long   = company.name_long,
-        emitter_name_short  = company.name_short,
-        emitter_activity    = company.name_activity,
-        emitter_hq_addr     = "{0}, {1}".format(company.addr_street, company.addr_city),
+        emitter = SectionEmitter(
+            emitter_name_long   = company.name_long,
+            emitter_name_short  = company.name_short,
+            emitter_activity    = company.name_activity,
+            emitter_hq_addr     = "{0}, {1}".format(company.addr_street, company.addr_city),
 
-        emitter_branch_addr = "{0}, {1}".format(
-            str(dte.Documento.Encabezado.Emisor.DirOrigen),
-            str(dte.Documento.Encabezado.Emisor.CmnaOrigen)
-        ),
+            emitter_branch_addr = "{0}, {1}".format(
+                str(dte.Documento.Encabezado.Emisor.DirOrigen),
+                str(dte.Documento.Encabezado.Emisor.CmnaOrigen)
+            ),
 
-        emitter_phone    = emitter_phone,
-        order_number     = '',
-        emitter_salesman = '',
-        licence_plate    = '',
-        logo_path        = company.resource_logo_eps
-    )
+            emitter_phone    = emitter_phone,
+            order_number     = '',
+            emitter_salesman = '',
+            licence_plate    = '',
+            logo_path        = company.resource_logo_eps
+        )
 
-    return emitter
+        return emitter
 
 
 def _assemble_siipatch(dte, company):
     dte_type  = int(dte.Documento.Encabezado.IdDoc.TipoDTE)
     dte_folio = int(dte.Documento.Encabezado.IdDoc.Folio)
 
+    info_rut = None
+    info_sii = None
+
+    if company:
+        info_rut = fmt.rut(*company.rut_full.split('-'))
+        info_sii = company.sii_office_location
+    else:
+        info_rut = fmt.rut(*str(dte.Documento.Encabezado.Emisor.RUTEmisor).split('-'))
+        info_sii = "---------------"
+
     patch = SectionSiiPatch(
-        rut        = fmt.rut(*company.rut_full.split('-')),
+        rut        = info_rut,
         dte_type   = dte_type,
         dte_serial = dte_folio,
-        sii_branch = company.sii_office_location,
-        logo_path  = ''
+        sii_branch = info_sii,
+        logo_path  = ""
     )
 
     return patch
@@ -258,7 +287,7 @@ def _assemble_siipatch(dte, company):
 def _assemble_receiver(dte, company):
     receiver = SectionReceiver(
         emission_date    = str(dte.Documento.Encabezado.IdDoc.FchEmis),
-        expiration_date  = str(dte.Documento.Encabezado.IdDoc.FchEmis),
+        expiration_date  = str(dte.Documento.Encabezado.IdDoc.FchVenc),
         receivername     = str(dte.Documento.Encabezado.Receptor.RznSocRecep),
         receiverrut      = fmt.rut(*str(dte.Documento.Encabezado.Receptor.RUTRecep).split('-')),
         receiveraddress  = str(dte.Documento.Encabezado.Receptor.DirRecep),
@@ -273,7 +302,7 @@ def _assemble_receiver(dte, company):
     return receiver
 
 
-def _assemble_items(dte, company, draft):
+def _assemble_items(dte, company, draft, provider):
     items = SectionItems(
         column_layout = (
             {  # NroLinDet
@@ -313,7 +342,8 @@ def _assemble_items(dte, company, draft):
             }
         ),
         table_margins = False,
-        draft         = draft
+        draft         = draft,
+        provider      = provider
     )
 
     def extract_price(detail):
@@ -423,19 +453,32 @@ def _assemble_barcode(dte, company):
     bcde_xmlstr = dte.Documento.TED._xml
     bcde_clean  = re.sub('>[.*\n]<', '><', bcde_xmlstr)
 
+    res_num  = None
+    res_date = None
+
+    if company:
+        res_num  = str(company.sii_cert),
+        res_date = datetime.datetime.strptime(company.sii_cert_date, '%Y-%m-%d').strftime('%d-%m-%Y')
+    else:
+        res_num  = "--"
+        res_date = "------------"
+
     barcode = SectionBarcode(
         data               = bcde_clean,
-        resolution_number  = int(company.sii_cert),
-        resolution_datestr = datetime.datetime.strptime(company.sii_cert_date, '%Y-%m-%d').strftime('%d-%m-%Y')
+        resolution_number  = res_num,
+        resolution_datestr = res_date
     )
 
     return barcode
 
 
 def _assemble_disclaimer(dte, company):
-    disclaimer = SectionDisclaimer(
-        company_name = company.name_short,
-        company_rut  = fmt.rut(*company.rut_full.split('-'))
-    )
+    if not company:
+        return SectionDisclaimerDummy()
+    else:
+        disclaimer = SectionDisclaimer(
+            company_name = company.name_short,
+            company_rut  = fmt.rut(*company.rut_full.split('-'))
+        )
 
-    return disclaimer
+        return disclaimer

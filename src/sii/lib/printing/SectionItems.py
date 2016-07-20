@@ -44,7 +44,7 @@ class SectionItems(TemplateElement):
         %s
     }
     """
-    def __init__(self, column_layout, table_margins=False, draft=False):
+    def __init__(self, column_layout, table_margins=False, draft=False, provider=False):
         """ Before using this Object you need to determine how the Columns are named, aligned and
         if they are expanding or not.
         You do that by providing the `column_layout` argument in the following Format:
@@ -65,6 +65,7 @@ class SectionItems(TemplateElement):
         self._items         = []
         self._table_margins = table_margins
         self._draft         = draft
+        self._provider      = provider
 
         self.__doc__ = self.__doc__ % (
             self._build_tablecols(),
@@ -150,14 +151,16 @@ class SectionItems(TemplateElement):
     def _build_disclaimer(self):
         assert self.__document__, "Have not been yet registered onto a Document"
 
-        disclaimer = ""
-
+        disclaimers = []
         doc_gd_type = self.__document__.doc_gd_type
 
         if doc_gd_type:
-            disclaimer += '\\centerline{\\textbf{\\large --- %s ---}}' % GUIA_DESPACHO_TYPES[doc_gd_type]
+            disclaimers.append('\\centerline{\\textbf{\\large --- %s ---}}' % GUIA_DESPACHO_TYPES[doc_gd_type])
 
         if self._draft:
-            disclaimer += '\\centerline{\\textbf{\\large --- %s ---}}' % "BORRADOR"
+            disclaimers.append('\\centerline{\\textbf{\\large --- %s ---}}' % "BORRADOR")
 
-        return disclaimer
+        if self._provider:
+            disclaimers.append('\\centerline{\\textbf{\\large --- %s ---}}' % "DOCUMENTO PROVEEDOR")
+
+        return "\n".join(disclaimers)

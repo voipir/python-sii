@@ -18,7 +18,7 @@ class SectionBarcode(TemplateElement):
         \\includegraphics[width=%s\\textwidth]{barcode.eps} \\\\
         \\scriptsize{
             Timbre Electrónico SII \\\\
-            Res. %d del %s - Verifique documento: www.sii.cl
+            Res. %s del %s - Verifique documento: www.sii.cl
         }
     \\end{center}
     """

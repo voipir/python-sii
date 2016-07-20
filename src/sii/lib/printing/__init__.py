@@ -3,7 +3,7 @@
 from .Document import Document
 
 from .SectionPreamble   import SectionPreamble
-from .SectionEmitter    import SectionEmitter
+from .SectionEmitter    import SectionEmitter, SectionEmitterProvider
 from .SectionSiiPatch   import SectionSiiPatch
 from .SectionReceiver   import SectionReceiver
 from .SectionItems      import SectionItems
@@ -12,7 +12,7 @@ from .SectionTotals     import SectionTotals
 from .SectionReferences import SectionReferences
 from .SectionBarcode    import SectionBarcode
 from .SectionSignature  import SectionSignature
-from .SectionDisclaimer import SectionDisclaimer
+from .SectionDisclaimer import SectionDisclaimer, SectionDisclaimerDummy
 
 from .printing import list_formats, list_printers
 from .printing import create_template, tex_to_pdf
@@ -34,6 +34,7 @@ __all__ = [
 
     'SectionPreamble',
     'SectionEmitter',
+    'SectionEmitterProvider',
     'SectionSiiPatch',
     'SectionReceiver',
     'SectionItems',
@@ -42,5 +43,6 @@ __all__ = [
     'SectionReferences',
     'SectionBarcode',
     'SectionSignature',
-    'SectionDisclaimer'
+    'SectionDisclaimer',
+    'SectionDisclaimerDummy'
 ]

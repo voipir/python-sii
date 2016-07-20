@@ -7,6 +7,11 @@ Contains:
 """
 from .TemplateElement import TemplateElement
 
+__all__ = [
+    'SectionDisclaimer',
+    'SectionDisclaimerDummy'
+]
+
 
 class SectionDisclaimer(TemplateElement):
     """
@@ -34,3 +39,29 @@ class SectionDisclaimer(TemplateElement):
     @property
     def thermal80mm(self):
         return self.__doc__ % (self._company_name, self._company_rut)
+
+
+class SectionDisclaimerDummy(TemplateElement):
+    """
+    %%%% -----------------------------------------------------------------
+    %%%% SECTION - Disclaimer
+    %%%% -----------------------------------------------------------------
+    \\tiny{
+        Este documento ha sido emitido por una tercera parte, siendo esta impresion en papel
+        generada por el receptor para fines internos de archivacion u otros.
+    }
+    """
+    def __init__(self):
+        pass
+
+    @property
+    def carta(self):
+        return self.__doc__
+
+    @property
+    def oficio(self):
+        return self.__doc__
+
+    @property
+    def thermal80mm(self):
+        return self.__doc__
