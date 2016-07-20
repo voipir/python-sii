@@ -13,7 +13,8 @@ xml = lib.xml
 __all__ = [
     'resolve_schema',
     'bundle_dte',
-    'bundle_enviodte'
+    'bundle_enviodte',
+    'unbundle_enviodte'
 ]
 
 SCHEMA_FILES = {
@@ -396,3 +397,23 @@ def bundle_libro_ventas(dte_list, company):
     libro_venta.Signature = signode
 
     return libro_venta_tree
+
+
+def unbundle_enviodte(xml_enviodte):
+    """ Unpacks a <EnvioDTE> returning a list with the contained <DTE>'s
+
+    :param xml_enviodte: XML with <EnvioDTE> as root node.
+    :return:             List of XML's with <DTE> as root node.
+
+    :type xml_enviodte: :class:lxml.etree.Element
+    :rtype:             :class:lxml.etree.Element
+    """
+    dte_envio = xml.wrap_xml(xml_enviodte)
+    dte_set   = dte_envio.SetDTE
+
+    dte_lst = []
+    for dte in dte_set.DTE:
+        tree = xml.dump_etree(dte)
+        dte_lst.append(tree)
+
+    return dte_lst
