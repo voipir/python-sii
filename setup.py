@@ -1,10 +1,4 @@
-""" Chilean Tax Revenue Office (SII) interaction Library.
-
-Implements:
-- Document Schema.
-- XML handling and signing.
-- XML uploading and downloading.
-- Document Printing.
+""" SII Common Library.
 """
 from setuptools import setup, find_packages
 
@@ -12,19 +6,31 @@ from setuptools import setup, find_packages
 cfg = {
     'name'               : 'python-sii',
     'long_description'   : __doc__,
-    'version'            : '0.1.0.dev2015051500',
+    'version'            : '1.0.0',
     'packages'           : find_packages('src'),
     'package_dir'        : {'': 'src'},
-    'namespace_packages' : [],
-    'install_requires'   : [
-        'jinja2     >= 2.7.3',
+
+    'namespace_packages': ['sii'],
+
+    'install_requires' : [
         'lxml       >= 3.4.0',
-        'xmlsec     >= 0.1.2',
-        'suds-jurko >= 0.7.dev0'
+        'PyYAML     >= 3.11',
+        'pycrypto   >= 2.6.1',
+        'xmlsec     >= 0.3.1',
+        'suds-jurko >= 0.7.dev0',
+        'requests   >= 2.8.1'
+
+        # Additionally requires LaTex if you pretend to use printing.
+        # See debian/control for that. Possibly unavailable under Windows.
     ],
-    'dependency_links'   : [],
-    'entry_points'       : {},
-    'zip_safe'           : False
+
+    'include_package_data' : True,
+    'package_data'         : {
+        'sii.lib.printing.barcode': ['*.ps']
+    },
+
+    'dependency_links' : [],
+    'zip_safe'         : True
 }
 
 

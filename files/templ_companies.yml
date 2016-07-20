@@ -1,0 +1,34 @@
+123456978:
+    rut_full            : '12345678-9'
+    rut_base            : 12345678
+    rut_chkdgt          : 9
+    name_long           : 'Compañía de Papeles y Lápizes Limitada'
+    name_short          : 'Cia. Papeles y Lápizes Ltda.'
+    name_activity       : 'Papeles e Insumos de Oficina'
+    addr_street         : 'Terra N°42'
+    addr_commune        : 'Espiral Gamma'
+    addr_city           : 'Sol'
+    addr_phone          : '+99 1111 1111'
+    sii_emitter         : '87654321-0'
+    sii_acteco          : [123456, 456789]
+    sii_office          : 0
+    sii_office_location : 'Sol'
+    sii_cert            : 0
+    sii_cert_date       : '2199-10-10'
+    resource_logo_eps   : '/path/to/my/static/stuff/12345678.logo.eps'
+    resource_logo_svg   : '/path/to/my/static/stuff/12345678.logo.svg'
+    branches:
+        -
+            sii_code : 56987
+            name     : 'Casa Matriz'
+            address  : 'Terra N°42'
+            commune  : 'Espiral Gamma'
+            city     : 'Sol'
+            phone    : '+99 1111 1111'
+        -
+            sii_code : 54321
+            name     : 'Sucursal Marte'
+            address  : 'Marte N°24'
+            commune  : 'Espiral Gamma'
+            city     : 'Sol'
+            phone    : '+99 1114 2111'

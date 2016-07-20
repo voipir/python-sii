@@ -1,0 +1,2 @@
+files/schema               /var/lib/sii/
+files/templ_companies.yml  /usr/share/doc/python3-sii/

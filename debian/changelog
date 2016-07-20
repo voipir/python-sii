@@ -1,5 +1,5 @@
-python-sii (0.1.0~2015051500) UNRELEASED; urgency=medium
+python-sii (1.0.0) stable; urgency=medium
 
-  * Initial Debian Packaging.
+  * Initial Release.
 
- -- Leonhard Weber Kunstmann <leonhard.weber@voipir.cl>  Fri, 15 May 2015 11:54:40 -0300
+ -- Leonhard Weber <leonhard.weber@voipir.cl>  Fri, 24 Jun 2016 19:01:32 -0400

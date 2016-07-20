@@ -1,5 +1,4 @@
 #!/usr/bin/make -f
-# export DH_VERBOSE=1
 
 export PYBUILD_NAME=sii
 export PYBUILD_DISABLE=test  # FIXME: do proper instead of just disabling

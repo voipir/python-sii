@@ -1,15 +1,32 @@
 Source: python-sii
 Section: python
 Priority: optional
-Maintainer: Leonhard Weber Kunstmann <develop@voipir.cl>
-Build-Depends: dh-python (>= 1.20140511), debhelper (>= 9), python3 (>= 3.4.1),
-               python3-setuptools
-Standards-Version: 3.9.5
-X-Python3-Version: >= 3.4
+Maintainer: Leonhard Weber <leonhard.weber@voipir.cl>
+Build-Depends:
+    dh-python  (>= 1.20141111),
+    debhelper  (>= 9),
+    python3    (>= 3.4.2),
+    python3-setuptools
+Standards-Version: 3.9.8
 
 Package: python3-sii
 Architecture: all
-Depends: ${misc:Depends}, python3 (>= 3.4.1)
-Description: Chilean Tax Revenue Office (SII) interaction Library.
- Implements protocols, authentication, interaction and document printing for the obligatory
- tributary reporting requirements since 2014/2015.
+Depends:
+    ${misc:Depends},
+    ${python3:Depends},
+    python3-yaml              (>= 3.11),
+    python3-crypto            (>= 2.6.1),
+    python3-xmlsec            (>= 0.3.1),
+    python3-suds              (>= 0.7~0),
+    python3-requests          (>= 2.8.1),
+    texlive-latex-base        (>= 2014.20141024),
+    texlive-latex-extra       (>= 2014.20141024),
+    texlive-latex-recommended (>= 2014.20141024),
+    texlive-lang-spanish      (>= 2014.20141024),
+    ps2eps                    (>= 1.68)
+Description: SII Common Library.
+ Implements anything related to interacting with the SII (Chilean Tax Office).
+ So far, signing and verifying of signatures and schemas of DTE's (electronic
+ invoices), printing via LaTeX templates and upload/download of information to
+ SII services/web portal.
+ .
