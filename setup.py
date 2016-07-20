@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 cfg = {
     'name'               : 'python-sii',
     'long_description'   : __doc__,
-    'version'            : '1.0.0.dev2016062300',
+    'version'            : '1.0.0.dev2016072000',
     'packages'           : find_packages('src'),
     'package_dir'        : {'': 'src'},
 
@@ -21,7 +21,7 @@ cfg = {
         'requests   >= 2.8.1'
 
         # Additionally requires LaTex if you pretend to use printing.
-        # See debian/control for that. Probably unavailable under Windows.
+        # See debian/control for that. Possibly unavailable under Windows.
     ],
 
     'include_package_data' : True,
