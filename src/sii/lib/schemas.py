@@ -82,7 +82,7 @@ def bundle_dte(doc_xml, caf):
     if isinstance(caf, types.CAFPool):
         caf = caf.resolve(doc_rut, doc_type, doc_serial)
 
-    assert isinstance(caf, types.CAF), "Expected `CAF` or `CAFPool` as company argument!"
+    assert isinstance(caf, types.CAF), "Expected `CAF` or `CAFPool` as caf argument!"
 
     # Create TED
     doc.TED       = xml.wrap_xml(build_digital_stamp(doc_xml, caf.xml))  # Add SII digital stamp
@@ -205,17 +205,35 @@ def bundle_enviodte(dte_list, company, to_sii):
     return envio_tree
 
 
-def bundle_libro_ventas(dte_list, company):
+def bundle_lcv(dte_list, company, op_type, libro_type='MENSUAL', envio_type='TOTAL', req_id=None):
     """ Bundle list of <DTE>...</DTE> documents into a <LibroCompraVenta>.
 
-    :param dte_list: List with the <DTE> documents.
-    :param company:  Company metadata or CompanyPool to get the Company from.
-    :returns:        Handle on <LibroCompraVenta>...</LibroCompraVenta>.
+    :param dte_list:   List with the <DTE> documents.
+    :param company:    Company metadata or CompanyPool to get the Company from.
+    :param op_type:    Whether ledger is to be sales or purchases (VENTA or COMPRA)
+    :param libro_type: Whether the ledger is to contain month (MENSUAL), requested by SII (ESPECIAL), or
+                       correction/amendments (RECTIFICA)
+    :param envio_type: Whether the scope of the leger is to be all/full/total (TOTAL), partial (PARCIAL),
+                       adjustments/fixes (AJUSTE), or closing for a previous partial (FINAL)
+    :param req_id:     SII request ID for a special ledger reporting.
 
-    :type dte_list: [:class:lxml.etree.Element, ...]
-    :type company:  :class:sii.types.Company | :class:sii.types.CompanyPool
-    :rtype:         :class:lxml.etree.Element
+    :returns:          Handle on resulting <LibroCompraVenta>...</LibroCompraVenta>.
+
+    :type dte_list:   [:class:lxml.etree.Element, ...]
+    :type company:    :class:sii.types.Company | :class:sii.types.CompanyPool
+    :type op_type:    str -> VENTA | COMPRA
+    :type libro_type: str -> MENSUAL | ESPECIAL | RECTIFICA
+    :type envio_type: str -> PARCIAL | FINAL | TOTAL | AJUSTE
+    :type req_id:     int -> SII Request ID
+    :rtype:           :class:lxml.etree.Element
     """
+    assert op_type    in ('VENTA', 'COMPRA'),                     "Unexpected op_type, see docstring"
+    assert libro_type in ('MENSUAL', 'ESPECIAL', 'RECTIFICA'),    "Unexpected libro_type, see docstring"
+    assert envio_type in ('PARCIAL', 'FINAL', 'TOTAL', 'AJUSTE'), "Unexpected envio_type, see docstring"
+
+    assert (libro_type == 'ESPECIAL')  ^ (req_id is None),          "Must specify a SII request ID if type is ESPECIAL"
+    assert (libro_type == 'RECTIFICA') ^ (envio_type == 'PARCIAL'), "A rectifing ledger expects adjustments"
+
     libro_venta = xml.create_xml(name='LibroCompraVenta', namespaces=SII_NSMAP)
     envio_libro = xml.create_xml(name='EnvioLibro')
 
@@ -235,7 +253,7 @@ def bundle_libro_ventas(dte_list, company):
         dte      = xml.wrap_xml(dte)
         dte_head = dte.Documento.Encabezado
 
-        # Check if the document type is allowed in Libro Venta
+        # Check if the document type is allowed in Libro Venta or analogously Libro Compra
         if dte_head.IdDoc.TipoDTE._int not in (33, 56, 61):
             raise ValueError(
                 "Document type <{0}> does not correspond to Libro Venta reporting"
@@ -317,11 +335,11 @@ def bundle_libro_ventas(dte_list, company):
     caratula.PeriodoTributario = "{0}-{1:02}".format(*doc_month)
     caratula.FchResol          = company.sii_cert_date
     caratula.NroResol          = company.sii_cert
-    caratula.TipoOperacion     = "VENTA"
-    caratula.TipoLibro         = "MENSUAL"
-    caratula.TipoEnvio         = "TOTAL"
-    # caratula.TipoLibro         = "ESPECIAL"  # Certification only
-    # caratula.FolioNotificacion = 1           # Certification only
+    caratula.TipoOperacion     = op_type
+    caratula.TipoLibro         = libro_type
+    caratula.TipoEnvio         = envio_type
+    if req_id:
+        caratula.FolioNotificacion = req_id
 
     envio_libro.Caratula = caratula
     # </Caratula>
@@ -384,11 +402,12 @@ def bundle_libro_ventas(dte_list, company):
         envio_libro.Detalle = detalle
     # </Detalle>
 
+    uri_templ = "LV-{0}-{1}" if op_type == "VENTA" else "LC-{0}-{1}"
+
     doc_timestamp = datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
-    doc_uri       = "LV-{0}-{1}".format(*doc_month)
+    doc_uri       = uri_templ.format(*doc_month)
 
     envio_libro.TmstFirma  = doc_timestamp
-
     libro_venta.EnvioLibro = envio_libro
 
     # Append <ds:Signature>
