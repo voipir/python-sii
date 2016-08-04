@@ -1,9 +1,9 @@
 """ SII Document Printable Template Generation and Printing
 """
 import re
-import tempfile
-import datetime
 import base64
+import datetime
+import tempfile
 import os.path as path
 
 from sii.lib     import types
@@ -193,10 +193,7 @@ def tex_to_pdf(template, resources):
 
         # Run pdflatex to generate pdf
         pdflatex = sys.PdfLaTeX()
-        pdflatex.call(pth_template)
-
-        # from cns.lib.profiling import timeit
-        # timeit("Template TeX --> PDF Conversion", pdflatex.call, pth_template)
+        pdflatex.call(filename=pth_template)
 
         # Read PDF from generated file and return it
         with open(pth_pdf, 'rb') as fh:
@@ -204,7 +201,7 @@ def tex_to_pdf(template, resources):
             pdf_b64 = base64.b64encode(pdf_bin)
             pdf     = str(pdf_b64, 'ascii')
 
-        return pdf
+    return pdf
 
 
 def _str_or_none(obj, name, default=None):
