@@ -38,7 +38,9 @@ class XML(object):
             setattr(self, child.tag, XML(name=child.tag, node=child))
 
     def __repr__(self):
-        return "<XML(name={0}, text='{1}')>".format(self.__name__, str(self))
+        text = re.sub("^[\n\r\t\s]*", "", str(self))
+        text = re.sub("[\n\r\t\s]*$", "", text)
+        return "<XML(name={0}, text='{1}')>".format(self.__name__, text)
 
     def __str__(self):
         if self._node.text is not None:
