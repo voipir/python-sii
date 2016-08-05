@@ -1,3 +1,13 @@
+python-sii (1.0.3) stable; urgency=medium
+
+  * bb7b519 Fixed controlled attribute access on Company and Branch types.
+  * e31a62e Fixed string representation of lib.XML.
+  * bf4bb18 Fixed printing items without specified PrcItem.
+  * 2efcf2b Thread safety for TeX/PDF generation.
+  * 5844cfb Generalized XML dumping and printing in helper lib.
+
+ -- Leonhard Weber <leonhard.weber@voipir.cl>  Fri, 05 Aug 2016 11:51:35 -0400
+
 python-sii (1.0.0) stable; urgency=medium
 
   * Initial Release.
