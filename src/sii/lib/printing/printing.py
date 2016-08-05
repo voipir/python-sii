@@ -344,19 +344,19 @@ def _assemble_items(dte, company, draft, provider):
     )
 
     def extract_price(detail):
-        if any([det.PrcItem._float % 1 != 0 for det in dte.Documento.Detalle]):
+        if any([det.PrcItem._float % 1 != 0 for det in dte.Documento.Detalle if hasattr(det, 'PrcItem')]):
             return float(detail.PrcItem)
         else:
             return int(detail.PrcItem)
 
     for detalle in dte.Documento.Detalle:
-        col_number   = str(detalle.NroLinDet)                     if hasattr(detalle, 'NroLinDet')      else "-"
-        col_quantity = str(detalle.QtyItem)                       if hasattr(detalle, 'QtyItem')        else "-"
-        col_detail   = str(detalle.NmbItem)                       if hasattr(detalle, 'NmbItem')        else "-"
-        col_unit     = str(detalle.UnmdItem)                      if hasattr(detalle, 'UnmdItem')       else "-"
-        col_price    = fmt.thousands(extract_price(detalle))      if hasattr(detalle, 'PrcItem')        else "-"
-        col_discount = fmt.thousands(int(detalle.DescuentoMonto)) if hasattr(detalle, 'DescuentoMonto') else "-"
-        col_total    = fmt.thousands(int(detalle.MontoItem))      if hasattr(detalle, 'MontoItem')      else "-"
+        col_number   = str(detalle.NroLinDet)                               if hasattr(detalle, 'NroLinDet')      else "-"
+        col_quantity = str(detalle.QtyItem._number)                         if hasattr(detalle, 'QtyItem')        else "-"
+        col_detail   = str(detalle.NmbItem)                                 if hasattr(detalle, 'NmbItem')        else "-"
+        col_unit     = str(detalle.UnmdItem)                                if hasattr(detalle, 'UnmdItem')       else "-"
+        col_price    = fmt.thousands(extract_price(detalle),      zero="-") if hasattr(detalle, 'PrcItem')        else "-"
+        col_discount = fmt.thousands(int(detalle.DescuentoMonto), zero="-") if hasattr(detalle, 'DescuentoMonto') else "-"
+        col_total    = fmt.thousands(int(detalle.MontoItem),      zero="-") if hasattr(detalle, 'MontoItem')      else "-"
 
         items.append_row((
             col_number,

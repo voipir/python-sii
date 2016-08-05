@@ -144,6 +144,14 @@ class XML(object):
         return float(self)
 
     @property
+    def _number(self):
+        value = float(self)
+        if value % 1 != 0:
+            return value
+        else:
+            return int(self)
+
+    @property
     def _list(self):
         return list(self)
 
