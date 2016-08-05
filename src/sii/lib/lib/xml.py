@@ -38,7 +38,9 @@ class XML(object):
             setattr(self, child.tag, XML(name=child.tag, node=child))
 
     def __repr__(self):
-        return "<XML(name={0}, text='{1}')>".format(self.__name__, str(self))
+        text = re.sub("^[\n\r\t\s]*", "", str(self))
+        text = re.sub("[\n\r\t\s]*$", "", text)
+        return "<XML(name={0}, text='{1}')>".format(self.__name__, text)
 
     def __str__(self):
         if self._node.text is not None:
@@ -144,6 +146,14 @@ class XML(object):
         return float(self)
 
     @property
+    def _number(self):
+        value = float(self)
+        if value % 1 != 0:
+            return value
+        else:
+            return int(self)
+
+    @property
     def _list(self):
         return list(self)
 
@@ -180,6 +190,11 @@ def dump_etree(xml_node):
 
 
 def dump_xml(xml_node, **kwargs):
+    if isinstance(xml_node, XML):
+        xml = dump_etree(xml_node)
+    else:
+        xml = xml_node
+
     # Default encoding to UTF-8
     if not 'encoding' in kwargs:
         kwargs['encoding'] = 'UTF-8'
@@ -195,13 +210,13 @@ def dump_xml(xml_node, **kwargs):
         if pretty:
             preamble += b"\n"
 
-    buff = etree.tostring(xml_node._node, **kwargs)
+    buff = etree.tostring(xml, **kwargs)
     buff = preamble + buff
 
     return buff
 
 
-def print_xml(xml, file=sys.stdout, end='\n', encoding='UTF-8'):
+def print_xml(xml, file=sys.stdout.buffer, end='\n', encoding='UTF-8'):
     if isinstance(xml, XML):
         xml = dump_etree(xml)
 
@@ -214,7 +229,7 @@ def print_xml(xml, file=sys.stdout, end='\n', encoding='UTF-8'):
     )
 
     encoded_end = bytes(end, encoding)
-    file.buffer.write(XML_DECL(encoding) + encoded_end + bytebuff)
+    file.write(XML_DECL(encoding) + encoded_end + bytebuff)
 
 
 def write_xml(xml, fpath, end='\n', encoding='UTF-8', append=False):

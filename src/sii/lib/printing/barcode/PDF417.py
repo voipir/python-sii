@@ -58,9 +58,6 @@ class PDF417(Barcode):
         converter = syscall.Ps2Eps()
         converter.call(ps_fname)
 
-        # from cns.lib.profiling import timeit
-        # timeit("Barcode PS --> EPS Conversion", converter.call, ps_fname)
-
         if return_path is True:
             return eps_fname
         else:

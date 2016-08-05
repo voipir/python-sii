@@ -12,6 +12,9 @@ class Company(object):
         self.branches = [Branch(b) for b in self.branches]
 
     def __getattr__(self, key):
+        if key.startswith('__'):
+            return super().__getattr__(key)
+
         if key in self.__dict__:
             return super().__getattr__(key)
         else:

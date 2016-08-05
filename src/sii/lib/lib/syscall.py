@@ -112,26 +112,22 @@ class PdfLaTeX(SystemCall):
         exe = which(self.name, fail=False)
         return False if exe is False else True
 
-    def call(self, filepath):
+    def call(self, filename):
         """
-        :param filepath: Path to latex file file to convert to pdf.
+        :param filename: Path to TeX file to generate PDF from.
 
         NOTE: It has to switch directory during execution of `pdflatex`. Otherwise it will fail to
         find the resources referenced by the template.
         On a sidenote it is suggested you make a `tempdir` and copy the template and resources in
         there before running this over it.
         """
-        basedir, tex = os.path.split(filepath)
-        cmd          = [self.executable, tex]
+        basedir, tex = os.path.split(filename)
 
-        with cd(basedir):
-            ret, out, err = _call(cmd, timeout=5)
+        cmd           = [self.executable, '--interaction batchmode', tex]
+        ret, out, err = _call(cmd, timeout=5, cwd=basedir)
 
         if ret != 0:
-            raise RuntimeError(
-                "Call <{0}> failed with exit code: <{1}> and output {2}"
-                .format(cmd, ret, out)
-            )
+            raise RuntimeError("Call \"{0}\" failed with exit code: <{1}>".format(" ".join(cmd), ret))
 
 
 class LP(SystemCall):
@@ -181,7 +177,7 @@ class LP(SystemCall):
         :param printer:    Name of the printer to print on. See `query_printers` to get a list.
         """
         if isinstance(data, str):
-            data = bytes(data, 'utf8')
+            data = bytes(data, 'UTF-8')
 
         with tempfile.NamedTemporaryFile() as tmp:
             tmp.file.write(data)
@@ -242,16 +238,16 @@ class LP(SystemCall):
         return printer
 
 
-def _call(args, timeout):
-    proc = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+def _call(args, timeout, cwd=None):
+    proc = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=cwd)
 
     try:
         out, err = proc.communicate(timeout=timeout)
     except subprocess.TimeoutExpired:
-        proc.kill()
         out, err = proc.communicate()
 
-    out = str(out, 'utf8')
-    err = str(err, 'utf8')
+    ret = proc.returncode
+    out = str(out, 'UTF-8')
+    err = str(err, 'UTF-8')
 
-    return proc.returncode, out, err
+    return ret, out, err

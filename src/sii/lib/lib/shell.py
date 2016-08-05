@@ -35,6 +35,11 @@ class cd(object):
     """ Directory Context Switcher.
 
     Switches directory within the guards, switching back when leaving them.
+
+    [NOT THREAD SAFE]
+    If multiple threads switch around it looses its way back to the original
+    working directory. A possible way would be to take into consideration in
+    which thread it is currently being called.
     """
     def __init__(self, dir):
         self.dir    = dir
