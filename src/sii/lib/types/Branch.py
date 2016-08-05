@@ -10,6 +10,9 @@ class Branch(object):
         self.__dict__.update(yml)
 
     def __getattr__(self, key):
+        if key.startswith('__'):
+            return super().__getattr__(key)
+
         if key in self.__dict__:
             return super().__getattr__(key)
         else:
