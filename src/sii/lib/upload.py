@@ -1,5 +1,8 @@
 """ SII Documents Upload Utilities
 """
+import datetime
+import collections
+
 import requests
 from lxml import etree
 
@@ -30,6 +33,13 @@ STATUS_DESC = {
     "9"  : "Sistema Bloqueado",
     "99" : "Error Interno."
 }
+
+UploadResponse = collections.namedtuple('UploadResponse',
+    [
+        'trackid',
+        'timestamp'
+    ]
+)
 
 
 def test_connection(key_pth, cert_pth, server):
@@ -139,8 +149,11 @@ def connect_webservice(key_pth, cert_pth, server):
 def _parse_upload_return(tree):
     ret = xml.wrap_xml(tree)
 
-    status = ret.STATUS._str
+    status = str(ret.STATUS)
     if status == "0":
-        return ret.TRACKID._int
+        return UploadResponse(
+            trackid   = int(ret.TRACKID),
+            timestamp = datetime.datetime.strptime(str(ret.TIMESTAMP), '%Y-%m-%d %H:%M:%S')
+        )
     else:
         raise RuntimeError("SII: '{0}'".format(STATUS_DESC[status]))

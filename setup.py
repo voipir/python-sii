@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 cfg = {
     'name'               : 'python-sii',
     'long_description'   : __doc__,
-    'version'            : '1.0.3',
+    'version'            : '1.1.0',
     'packages'           : find_packages('src'),
     'package_dir'        : {'': 'src'},
 

@@ -1,3 +1,9 @@
+python-sii (1.1.0) UNRELEASED; urgency=medium
+
+  * Return info of EnvioDTE upload back to the application.
+
+ -- Leonhard Weber <leonhard.weber@voipir.cl>  Mon, 22 Aug 2016 18:12:37 -0300
+
 python-sii (1.0.3) stable; urgency=medium
 
   * bb7b519 Fixed controlled attribute access on Company and Branch types.
