@@ -1,4 +1,4 @@
-python-sii (1.1.0) UNRELEASED; urgency=medium
+python-sii (1.1.0~2016082200) UNRELEASED; urgency=medium
 
   * Return info of EnvioDTE upload back to the application.
 
