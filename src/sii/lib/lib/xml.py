@@ -172,7 +172,14 @@ def create_xml(name, value=None, namespaces=None):
 
 
 def read_xml(path):
-    root = etree.parse(path).getroot()
+    doc  = None
+    root = None
+
+    with open(path, "rb") as fh:
+        doc = etree.parse(fh)
+
+    root = doc.getroot()
+
     return XML(node=root)
 
 
