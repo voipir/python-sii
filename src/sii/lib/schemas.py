@@ -26,6 +26,8 @@ SCHEMA_FILES = {
         '/var/lib/sii/schema/doc_info_elec_compra_venta/LibroCV_v10.xsd',
     '{http://www.sii.cl/SiiDte}LibroGuia':
         '/var/lib/sii/schema/doc_libro_guia_despacho/LibroGuia_v10.xsd',
+    'AEC':
+        '/var/lib/sii/schema/doc_cesion/AEC_v10.xsd',
     '{http://www.sii.cl/SiiDte}RespuestaDTE':
         '/var/lib/sii/schema/ptcl_respuesta_envio/RespuestaEnvioDTE_v10.xsd',
     '{http://www.sii.cl/SiiDte}EnvioRecibos':
