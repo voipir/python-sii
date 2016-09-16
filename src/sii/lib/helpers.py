@@ -1,26 +1,37 @@
 """ Common Local Utilities.
 """
-import re
 import io
+import re
 
 from lxml import etree
 
 __all__ = [
     'prepend_dtd',
+
+    # ds:Signature traversal
     'extract_signode',
     'extract_signodes',
     'extract_signode_reference',
-    'extract_signode_certificate'
+    'extract_signode_certificate',
+
+    # ds:Signature properties
+    'is_signed'
 ]
 
 DTD_PREAMBLE = """
 <!DOCTYPE {root} [
     <!ATTLIST Documento       ID ID #IMPLIED>
     <!ATTLIST SetDTE          ID ID #IMPLIED>
+
     <!ATTLIST EnvioLibro      ID ID #IMPLIED>
+
     <!ATTLIST Resultado       ID ID #IMPLIED>
     <!ATTLIST SetRecibos      ID ID #IMPLIED>
     <!ATTLIST DocumentoRecibo ID ID #IMPLIED>
+
+    <!ATTLIST DocumentoAEC       ID ID #IMPLIED>
+    <!ATTLIST DocumentoDTECedido ID ID #IMPLIED>
+    <!ATTLIST DocumentoCesion    ID ID #IMPLIED>
 ]>
 """
 
@@ -120,3 +131,27 @@ def extract_signode_certificate(signode):
     buff += '\n-----END CERTIFICATE-----\n'
 
     return buff
+
+
+def is_signed(signode):
+    """ Determines whether given <ds:Signature> has already been signed or not.
+
+    :param `etree.Element` signode: A valid <ds:Signature> node.
+
+    :return: True if signode contains a signature value, False otherwise.
+
+    :raises ValueError: if <ds:Signature> node lacks a <SignatureValue> node or if it has more than
+                        one. The latter would make any answer ambiguous.
+    """
+    signode_sigvals = signode.xpath('ds:SignatureValue', namespaces={'ds': 'http://www.w3.org/2000/09/xmldsig#'})
+    sigval          = None
+
+    sigval_count = len(signode_sigvals)
+    if sigval_count < 1:
+        raise ValueError("Signature is missing its <SignatureValue> node!")
+    elif sigval_count > 1:
+        raise ValueError("Signature has more than one <SignatureValue> node!")
+    else:
+        sigval = signode_sigvals[0]
+
+    return True if sigval.text else False

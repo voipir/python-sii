@@ -2,7 +2,7 @@
 """
 import xmlsec
 
-from .helpers import prepend_dtd, extract_signode, extract_signodes
+from .helpers import prepend_dtd, extract_signode, extract_signodes, is_signed
 
 __all__ = [
     'sign_document',
@@ -20,12 +20,17 @@ def sign_document(xml, key_path, cert_path):
     :param str cert_path: Path to PEM certificate file.
 
     :return: `etree.Element` to the signed document. Should be the same with the provided xml param.
+
+    :raises ValueError: on an already signed <ds:Signature> node.
     """
     # HACK inject a DTD preamble in to direct non-standard xml:id
     # resolution for <Reference URI = "#XXXX">.
     xml = prepend_dtd(xml)
 
     signode = extract_signode(xml)
+
+    if is_signed(signode):
+        raise ValueError("Node has already been signed.")
 
     # Load Private Key and Public Certificate
     key = xmlsec.Key.from_file(key_path, xmlsec.KeyFormat.PEM)
@@ -50,22 +55,24 @@ def sign_document_all(xml, key_path, cert_path):
 
     :return: `etree.Element` to the signed document. Should be the same with the provided xml param.
 
+    NOTE: Signed nodes will be silently skipped.
+
     TODO: make sure we get all <ds:Signature> nodes in depth first order, otherwise we would break envolving
     signatures. Its not that it is not currently working, it is just without guaranteed order.
     """
+    # Load Private Key and Public Certificate
+    key = xmlsec.Key.from_file(key_path, xmlsec.KeyFormat.PEM)
+    key.load_cert_from_file(cert_path, xmlsec.KeyFormat.PEM)
+
     # HACK inject a DTD preamble in to direct non-standard xml:id
     # resolution for <Reference URI = "#XXXX">.
-    xml = prepend_dtd(xml)
+    xml      = prepend_dtd(xml)
+    signodes = [signode for signode in extract_signodes(xml) if not is_signed(signode)]
 
-    for signode in extract_signodes(xml):
-        # Load Private Key and Public Certificate
-        key = xmlsec.Key.from_file(key_path, xmlsec.KeyFormat.PEM)
-        key.load_cert_from_file(cert_path, xmlsec.KeyFormat.PEM)
-
+    for signode in signodes:
         # Create Crypto Context and load in Key/Cert
         ctx     = xmlsec.SignatureContext()
         ctx.key = key
-
         ctx.sign(signode)
 
     return xml

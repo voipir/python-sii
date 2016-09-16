@@ -1,0 +1,16 @@
+List of changes that change behaviours of the library in a significant way (across minor releases)
+and also changes that outright break backwards compatibility of the API (across mayor releases).
+
+Bulletpoints:
+
+    [+] Addition
+    [*] Modification
+    [-] Removal
+
+====================================================================================================
+
+v1.1.0
+------
+[*] Signing of documents (one or all signodes within) now checks whether a signode is aready signed
+    or not. Before it silently double signed. The new behaviour is to throw an exception on
+    `sign_document`, and to only sign still unsigned documents on `sign_document_all`
