@@ -1,7 +1,7 @@
 """ SII Document Signature Verification Process Functions
 """
-from io   import BytesIO
-from copy import deepcopy
+import io
+import copy
 import tempfile
 
 import xmlsec
@@ -64,14 +64,14 @@ def validate_schema(doc_xml, schema_xml=None):
 
     :param `lxml.etree.Element` doc_xml: Handle to XML etree root node.
     """
-    doc_xml = deepcopy(doc_xml)
+    doc_xml = copy.deepcopy(doc_xml)
 
     doc_new    = etree.Element(doc_xml.tag, nsmap={None: 'http://www.sii.cl/SiiDte'})
     doc_new[:] = doc_xml[:]                # move children into new root
     doc_new.attrib.update(doc_xml.attrib)  # copy attributes of the root node
 
     # reload xml
-    buff = BytesIO(etree.tostring(doc_new, method='c14n'))
+    buff = io.BytesIO(etree.tostring(doc_new, method='c14n'))
     xml  = etree.parse(buff).getroot()
 
     if not schema_xml:

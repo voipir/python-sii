@@ -73,14 +73,14 @@ def upload_document(document, key_pth, cert_pth, server=HOST_PRODUCTION, dryrun=
 
     envio = xml.wrap_xml(document)
     if envio.__name__ == '{http://www.sii.cl/SiiDte}EnvioDTE':
-        rut_company, dv_company = envio.SetDTE.Caratula.RutEmisor._str.split('-')
-        rut_sender,  dv_sender  = envio.SetDTE.Caratula.RutEnvia._str.split('-')
+        rut_company, dv_company = str(envio.SetDTE.Caratula.RutEmisor).split('-')
+        rut_sender,  dv_sender  = str(envio.SetDTE.Caratula.RutEnvia).split('-')
     elif envio.__name__ == '{http://www.sii.cl/SiiDte}LibroCompraVenta':
-        rut_company, dv_company = envio.EnvioLibro.Caratula.RutEmisorLibro._str.split('-')
-        rut_sender,  dv_sender  = envio.EnvioLibro.Caratula.RutEnvia._str.split('-')
+        rut_company, dv_company = str(envio.EnvioLibro.Caratula.RutEmisorLibro).split('-')
+        rut_sender,  dv_sender  = str(envio.EnvioLibro.Caratula.RutEnvia).split('-')
     elif envio.__name__ == '{http://www.sii.cl/SiiDte}LibroGuia':
-        rut_company, dv_company = envio.EnvioLibro.Caratula.RutEmisorLibro._str.split('-')
-        rut_sender,  dv_sender  = envio.EnvioLibro.Caratula.RutEnvia._str.split('-')
+        rut_company, dv_company = str(envio.EnvioLibro.Caratula.RutEmisorLibro).split('-')
+        rut_sender,  dv_sender  = str(envio.EnvioLibro.Caratula.RutEnvia).split('-')
     else:
         raise TypeError(
             "Document upload for '{0}' not available or not yet implemented"
