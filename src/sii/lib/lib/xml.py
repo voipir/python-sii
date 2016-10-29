@@ -203,8 +203,11 @@ def dump_xml(xml_node, **kwargs):
         xml = xml_node
 
     # Default encoding to UTF-8
-    if not 'encoding' in kwargs:
+    if 'encoding' not in kwargs:
         kwargs['encoding'] = 'UTF-8'
+
+    if kwargs['encoding'] == 'UTF-8':
+        kwargs['xml_declaration'] = True
 
     # Replace/Fix XML declaration/preamble
     preamble = b""
