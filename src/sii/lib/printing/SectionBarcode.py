@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ Barcode Section of the Document
 
 Contains:

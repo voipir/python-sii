@@ -1,6 +1,14 @@
 """ Common Output and Printing Utilities
 """
-from itertools import zip_longest
+from __future__ import print_function
+
+import itertools
+import sys
+
+if sys.version_info < (3, 0):
+    zip_longest = itertools.izip_longest
+else:
+    zip_longest = itertools.izip_longest
 
 __all__ = [
     'print_tabular',

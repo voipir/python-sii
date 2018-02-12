@@ -25,19 +25,19 @@ class TemplateElement(object):
         return []
 
     @property
-    def carta(self) -> str:
+    def carta(self):
         """ Create TeX Template for printable medium: "US Letter"
         """
         raise NotImplementedError
 
     @property
-    def oficio(self) -> str:
+    def oficio(self):
         """ Create TeX Template for printable medium: "American Foolscap"
         """
         raise NotImplementedError
 
     @property
-    def thermal80mm(self) -> str:
+    def thermal80mm(self):
         """ Create TeX Template for printable medium: "Thermal endless 80mm width"
         """
         raise NotImplementedError

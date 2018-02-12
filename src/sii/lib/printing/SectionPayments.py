@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ Payments Section of the Document
 
 Contains:

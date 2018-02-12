@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ Common Local Utilities.
 """
 import re

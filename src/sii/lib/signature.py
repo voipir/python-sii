@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ SII Document Signing Process Functions
 """
 import xmlsec

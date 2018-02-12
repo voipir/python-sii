@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ Barcode Creation (PDF417)
 """
 import os

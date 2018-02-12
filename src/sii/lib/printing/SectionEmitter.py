@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ Emitter Section of the Document
 
 Contains:

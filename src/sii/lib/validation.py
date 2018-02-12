@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ SII Document Signature Verification Process Functions
 """
 from io   import BytesIO

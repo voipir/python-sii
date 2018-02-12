@@ -1,6 +1,9 @@
+# -*- coding: utf-8 -*-
 """ Schema Providers.
 """
 from datetime import datetime
+
+import sys
 
 from . import lib
 from . import types
@@ -53,7 +56,7 @@ def resolve_schema(xml):
     try:
         path = SCHEMA_FILES[root.tag]
     except KeyError as exc:
-        raise KeyError("Could not find schema for root tag '{0}'".format(root.tag)) from exc
+        raise KeyError("Error: {}\nCould not find schema for root tag '{0}'".format(exc, root.tag))
     else:
         return path
 

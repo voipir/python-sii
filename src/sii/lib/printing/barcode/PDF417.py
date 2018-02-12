@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ PDF417 Barcode Generator.
 """
 import os

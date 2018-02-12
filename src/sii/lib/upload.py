@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ SII Documents Upload Utilities
 """
 import requests

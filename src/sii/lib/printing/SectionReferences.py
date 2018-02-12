@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ References Section of the Document
 
 Contains:

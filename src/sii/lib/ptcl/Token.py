@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ SII WebService Authentication Token.
 """
 import re
@@ -47,7 +48,7 @@ class Token(object):
         self._token_etree   = self._prepare_token_xml(self._token_xml)
         self._token_values  = self._parse_token_xml(self._token_etree)
 
-    def _build_token_request_xml(self, seed: str) -> str:
+    def _build_token_request_xml(self, seed):
         """
         <getToken>
             <item>
