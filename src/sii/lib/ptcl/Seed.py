@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ SII WebService Authentication Seed.
 """
 import re

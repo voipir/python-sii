@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ Totals Section of the Document
 
 Contains:

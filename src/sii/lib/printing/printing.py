@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ SII Document Printable Template Generation and Printing
 """
 import re

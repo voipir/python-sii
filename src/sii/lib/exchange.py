@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ Document Exchange Tooling
 
 TODO  missing parametrizability

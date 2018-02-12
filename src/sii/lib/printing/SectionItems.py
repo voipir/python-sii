@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ Items Section of the Document
 
 Contains:
@@ -72,7 +73,7 @@ class SectionItems(TemplateElement):
             '%s', '%s', '%s', '%s', '%s'
         )
 
-    def append_row(self, row: tuple):
+    def append_row(self, row):
         """ Expecting the column tuple to be in the expected order the column layout was set up at
         init time.
         """

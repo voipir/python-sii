@@ -1,4 +1,5 @@
-""" Input/Output Functions.
+"""
+Input/Output Functions.
 """
 import os
 import shutil
@@ -39,13 +40,15 @@ def read_create(path, templ_path, encoding=None):
 
         try:
             shutil.copyfile(templ_path, path)
-        except FileNotFoundError as exc:
-            raise FileNotFoundError(
-                "Read/Create could not find or read template file at {0}".format(templ_path)
-            ) from exc
+        except IOError as exc:
+            raise IOError(
+                "Read/Create could not find or read template file at {0}".format(
+                    templ_path)
+            )
 
     with open(path, 'r', encoding=encoding) as fh:
         return fh.read()
+
 
 def write(buff, path, encoding=None):
     """ Normal write to file after path user expansion.

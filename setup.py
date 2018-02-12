@@ -17,7 +17,7 @@ cfg = {
         'PyYAML     >= 3.11',
         'pycrypto   >= 2.6.1',
         'xmlsec     >= 0.3.1',
-        'suds-jurko >= 0.7.dev0',
+        'suds-jurko >= 0.6',
         'requests   >= 2.8.1'
 
         # Additionally requires LaTex if you pretend to use printing.

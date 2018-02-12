@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ Disclaimer Section of the Document (you might want to subclass this one)
 
 Contains:

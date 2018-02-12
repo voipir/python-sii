@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ SII Document Templating and Printing Submodule.
 """
 from .Document import Document

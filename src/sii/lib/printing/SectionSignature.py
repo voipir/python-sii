@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ Signature Section of the Document
 
 Contains:

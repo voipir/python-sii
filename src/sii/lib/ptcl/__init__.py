@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ SII Protocol Objects.
 """
 from .Seed  import Seed

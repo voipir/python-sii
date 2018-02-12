@@ -1,4 +1,6 @@
-""" Containing Document Structure
+# -*- coding: utf-8 -*-
+"""
+Containing Document Structure
 """
 from sii.lib.lib import xml
 

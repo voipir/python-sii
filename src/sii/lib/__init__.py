@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ CNS Common Library for SII stuff.
 """
 

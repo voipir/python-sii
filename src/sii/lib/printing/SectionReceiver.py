@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ Receiver Section in the Document
 
 Contains:

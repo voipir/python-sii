@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ Creation and management of SII Digital Stamp Utilities
 """
 import re

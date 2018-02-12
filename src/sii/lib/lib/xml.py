@@ -70,12 +70,12 @@ class XML(object):
 
         # private methods
         if name.startswith('_'):
-            super().__setattr__(attrname, value)
+            super(XML, self).__setattr__(attrname, value)
             return
 
         # children to append
         if isinstance(value, XML):
-            super().__setattr__(attrname, value)
+            super(XML, self).__setattr__(attrname, value)
             self._node.append(value._node)
             return
 
@@ -85,7 +85,7 @@ class XML(object):
             node._node.text = str(value)
         except AttributeError:
             node = XML(name=name, text=value)
-            super().__setattr__(attrname, node)
+            super(XML, self).__setattr__(attrname, node)
             self._node.append(node._node)
 
     def __getitem__(self, key):
@@ -223,7 +223,7 @@ def dump_xml(xml_node, **kwargs):
     return buff
 
 
-def print_xml(xml, file=sys.stdout.buffer, end='\n', encoding='UTF-8'):
+def print_xml(xml, file=sys.stdout, end='\n', encoding='UTF-8'):
     if isinstance(xml, XML):
         xml = dump_etree(xml)
 
